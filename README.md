@@ -5,7 +5,10 @@ This repository is intended to prove that [`aspect.js`](https://www.npmjs.com/pa
 The `package.json` has several scripts.
 
 ### TL;DR
-`npm test`
+* Clone the repo
+* `cd` into the cloned repo
+* `npm install`
+* `npm test`
 
 ### NTL;R
 * `u`: runs unit tests bare with inline Babel transpilation
