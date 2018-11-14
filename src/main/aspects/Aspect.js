@@ -13,10 +13,14 @@ const {
 const counts = require('../Counts')
 
 class MethodCallCounterAspect {
+  constructor () {
+    this._counts = counts
+  }
+
   @beforeStaticMethod({ classNamePattern: /.*/, methodNamePattern: /^new$/ })
   beforeNew (meta) {
     // console.log('Aspect beforeNew', json(meta))
-    counts.increment(meta.method.name)
+    this._counts.increment(meta.method.name)
   }
 
   @afterStaticMethod({ classNamePattern: /.*/, methodNamePattern: /^new$/ })
@@ -27,7 +31,7 @@ class MethodCallCounterAspect {
   @beforeStaticMethod({ classNamePattern: /.*/, methodNamePattern: /^staticMethod$/ })
   beforeStaticMethod (meta) {
     // console.log('Aspect beforeStaticMethod', json(meta))
-    counts.increment(meta.method.name)
+    this._counts.increment(meta.method.name)
   }
 
   @afterStaticMethod({ classNamePattern: /.*/, methodNamePattern: /^staticMethod$/ })
@@ -38,7 +42,7 @@ class MethodCallCounterAspect {
   @beforeMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
   beforeMethod (meta) {
     // console.log('Aspect beforeMethod', json(meta))
-    counts.increment(meta.method.name)
+    this._counts.increment(meta.method.name)
   }
 
   @afterMethod({ classNamePattern: /.*/, methodNamePattern: /.*/ })
@@ -49,7 +53,7 @@ class MethodCallCounterAspect {
   @beforeGetter({ classNamePattern: /.*/, fieldNamePattern: /.*/ })
   beforeGetter (meta) {
     // console.log('Aspect beforeGetter', json(meta))
-    counts.increment(meta.method.name, 'get')
+    this._counts.increment(meta.method.name, 'get')
   }
 
   @afterGetter({ classNamePattern: /.*/, fieldNamePattern: /.*/ })
@@ -60,7 +64,7 @@ class MethodCallCounterAspect {
   @beforeSetter({ classNamePattern: /.*/, fieldNamePattern: /.*/ })
   beforeSetter (meta) {
     // console.log('Aspect beforeSetter', json(meta))
-    counts.increment(meta.method.name, 'set')
+    this._counts.increment(meta.method.name, 'set')
   }
   @afterSetter({ classNamePattern: /.*/, fieldNamePattern: /.*/ })
   afterSetter (meta) {
