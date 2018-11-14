@@ -23,6 +23,8 @@ describe('Thing', () => {
 
     const it = Thing.new('hey', 1)
     expect(counts.get('new')).to.equal(1)
+    expect(counts.get('s', 'set')).to.equal(1)
+    expect(counts.get('t', 'set')).to.equal(1)
 
     it.method()
     expect(counts.get('method')).to.equal(1)
@@ -31,14 +33,14 @@ describe('Thing', () => {
     expect(counts.get('method')).to.equal(2)
 
     it.s = '1'
-    expect(counts.get('s', 'set')).to.equal(1)
+    expect(counts.get('s', 'set')).to.equal(2)
 
     it.t = parseInt(it.s)
-    expect(counts.s.get).to.equal(1)
-    expect(counts.t.set).to.equal(1)
+    expect(counts.get('s', 'get')).to.equal(1)
+    expect(counts.get('t', 'set')).to.equal(2)
 
     it.s = it.t.toString()
-    expect(counts.s.set).to.equal(2)
-    expect(counts.t.get).to.equal(1)
+    expect(counts.get('s', 'set')).to.equal(3)
+    expect(counts.get('t', 'get')).to.equal(1)
   })
 })
