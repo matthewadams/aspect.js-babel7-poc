@@ -7,11 +7,13 @@ chai.use(require('dirty-chai'))
 const expect = chai.expect
 
 const Thing = require('../../main/Thing')
-const counts = require('../../main/Counts')
+const MethodCallCounterAspect = require('../../main/aspects/MethodCallCounterAspect')
 
 describe('Thing', () => {
+  const counts = MethodCallCounterAspect.counts
+
   beforeEach(() => {
-    counts.reset()
+    MethodCallCounterAspect.counts.reset()
   })
 
   it('should be advised', () => {
@@ -21,7 +23,7 @@ describe('Thing', () => {
     Thing.staticMethod()
     expect(counts.get('staticMethod')).to.equal(2)
 
-    const it = Thing.new('hey', 1)
+    const it = Thing.new('hey', 1) // use static 'new' method instead of constructor to get before/after constructor advice
     expect(counts.get('new')).to.equal(1)
     expect(counts.get('s', 'set')).to.equal(1)
     expect(counts.get('t', 'set')).to.equal(1)

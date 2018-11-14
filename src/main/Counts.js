@@ -28,4 +28,4 @@ class Counts {
   }
 }
 
-module.exports = new Counts()
+module.exports = Counts

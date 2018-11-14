@@ -1,3 +1,5 @@
+'use strict'
+
 const {
   beforeStaticMethod,
   beforeMethod,
@@ -10,20 +12,10 @@ const {
 } = require('aspect.js')
 
 // const json = require('../json')
-const counts = require('../Counts')
+const Counts = require('../Counts')
+const counts = new Counts()
 
 class MethodCallCounterAspect {
-  @beforeStaticMethod({ classNamePattern: /.*/, methodNamePattern: /^new$/ })
-  beforeNew (meta) {
-    // console.log('Aspect beforeNew', json(meta))
-    counts.increment(meta.method.name)
-  }
-
-  @afterStaticMethod({ classNamePattern: /.*/, methodNamePattern: /^new$/ })
-  afterNew (meta) {
-    // console.log('Aspect afterNew', json(meta))
-  }
-
   @beforeStaticMethod({ classNamePattern: /.*/, methodNamePattern: /^staticMethod$/ })
   beforeStaticMethod (meta) {
     // console.log('Aspect beforeStaticMethod', json(meta))
@@ -66,6 +58,20 @@ class MethodCallCounterAspect {
   afterSetter (meta) {
     // console.log('Aspect afterSetter', json(meta))
   }
+
+  // these last two methods demonstrate how you can intercept constructor invocations; requires static 'new' method on your classes
+  @beforeStaticMethod({ classNamePattern: /.*/, methodNamePattern: /^new$/ })
+  beforeNew (meta) {
+    // console.log('Aspect beforeNew', json(meta))
+    counts.increment(meta.method.name)
+  }
+
+  @afterStaticMethod({ classNamePattern: /.*/, methodNamePattern: /^new$/ })
+  afterNew (meta) {
+    // console.log('Aspect afterNew', json(meta))
+  }
 }
+
+MethodCallCounterAspect.counts = counts
 
 module.exports = MethodCallCounterAspect

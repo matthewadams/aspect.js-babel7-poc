@@ -7,7 +7,8 @@ chai.use(require('dirty-chai'))
 const expect = chai.expect
 const uuid = require('uuid/v4')
 
-const counts = require('../../main/Counts')
+const Counts = require('../../main/Counts')
+const counts = new Counts()
 
 describe('Counts', () => {
   beforeEach(() => {
